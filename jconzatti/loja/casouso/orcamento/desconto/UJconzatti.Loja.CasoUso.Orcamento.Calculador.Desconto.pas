@@ -22,8 +22,6 @@ function TCasoUsoOrcamentoCalculadorDesconto.Calcular(aOrcamento: TEntidadeOrcam
 var aOrcamentoDescontoComMaisDeCincoItem : TCasoUsoOrcamentoDescontoQuantidade;
     aOrcamentoDescontoComValorMaiorQueQuinhetos : TCasoUsoOrcamentoDescontoValor;
 begin
-   Result := 0;
-
    aOrcamentoDescontoComValorMaiorQueQuinhetos := TCasoUsoOrcamentoDescontoValor.Create(nil);
    try
       aOrcamentoDescontoComMaisDeCincoItem := TCasoUsoOrcamentoDescontoQuantidade.Create(aOrcamentoDescontoComValorMaiorQueQuinhetos);
