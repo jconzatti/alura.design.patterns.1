@@ -5,7 +5,7 @@
         <FrameworkType>None</FrameworkType>
         <MainSource>loja.linha.comando.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>131</TargetedPlatforms>
         <AppType>Console</AppType>
@@ -137,6 +137,14 @@
         <DCCReference Include="..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.Finalizado.pas"/>
         <DCCReference Include="..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.pas"/>
         <DCCReference Include="..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.Reprovado.pas"/>
+        <DCCReference Include="..\entidade\pedido\UJconzatti.Loja.Entidade.Pedido.pas"/>
+        <DCCReference Include="..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Gerador.pas"/>
+        <DCCReference Include="..\repositorio\pedido\UJconzatti.Loja.Repositorio.Pedido.pas"/>
+        <DCCReference Include="..\casouso\email\UJconzatti.Loja.CasoUso.Email.Enviador.pas"/>
+        <DCCReference Include="..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Manipulador.Geracao.pas"/>
+        <DCCReference Include="..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.pas"/>
+        <DCCReference Include="..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.Repositorio.Salvar.pas"/>
+        <DCCReference Include="..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.Email.Enviar.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -159,9 +167,9 @@
                 </Source>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="Linux64\Debug\loja.linha.comando" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Linux64">
-                        <RemoteName>loja_linha_comando</RemoteName>
+                <DeployFile LocalName="Win64\Release\loja.linha.comando.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>loja_linha_comando.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -186,9 +194,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win64\Release\loja.linha.comando.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win64">
-                        <RemoteName>loja_linha_comando.exe</RemoteName>
+                <DeployFile LocalName="Linux64\Debug\loja.linha.comando" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Linux64">
+                        <RemoteName>loja_linha_comando</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

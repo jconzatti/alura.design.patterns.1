@@ -20,14 +20,27 @@ uses
   UJconzatti.Loja.Entidade.Orcamento.Situacao.EmAnalise in '..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.EmAnalise.pas',
   UJconzatti.Loja.Entidade.Orcamento.Situacao.Finalizado in '..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.Finalizado.pas',
   UJconzatti.Loja.Entidade.Orcamento.Situacao in '..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.pas',
-  UJconzatti.Loja.Entidade.Orcamento.Situacao.Reprovado in '..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.Reprovado.pas';
+  UJconzatti.Loja.Entidade.Orcamento.Situacao.Reprovado in '..\entidade\orcamento\situacao\UJconzatti.Loja.Entidade.Orcamento.Situacao.Reprovado.pas',
+  UJconzatti.Loja.Entidade.Pedido in '..\entidade\pedido\UJconzatti.Loja.Entidade.Pedido.pas',
+  UJconzatti.Loja.CasoUso.Pedido.Gerador in '..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Gerador.pas',
+  UJconzatti.Loja.Repositorio.Pedido in '..\repositorio\pedido\UJconzatti.Loja.Repositorio.Pedido.pas',
+  UJconzatti.Loja.CasoUso.Email.Enviador in '..\casouso\email\UJconzatti.Loja.CasoUso.Email.Enviador.pas',
+  UJconzatti.Loja.CasoUso.Pedido.Manipulador.Geracao in '..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Manipulador.Geracao.pas',
+  UJconzatti.Loja.CasoUso.Pedido.Executador.Acao in '..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.pas',
+  UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.Repositorio.Salvar in '..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.Repositorio.Salvar.pas',
+  UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.Email.Enviar in '..\casouso\pedido\UJconzatti.Loja.CasoUso.Pedido.Executador.Acao.Email.Enviar.pas';
 
 var aOrcamento : TEntidadeOrcamento;
+    aGeradorPedido : TCasoUsoPedidoGerador;
+    aRepositorioPedido : TRepositorioPedido;
+    aManipuladorGeracaoPedido : TCasoUsoPedidoManipuladorGeracao;
     aOrcamentoImposto : TCasoUsoOrcamentoImposto;
     aOrcamentoCalculadorImposto : TCasoUsoOrcamentoCalculadorImposto;
     aOrcamentoCalculadorDesconto : TCasoUsoOrcamentoCalculadorDesconto;
     aValor : Currency;
     aMensagem : String;
+    aCliente : String;
+    aQtItem : Cardinal;
 begin
    try
       //Design Pattern Strategy: Este padrão pode ser utilizado quando há diversos possíveis algoritmos para uma ação
@@ -69,8 +82,8 @@ begin
 
       //Design Patterns Template Method: favorece o reaproveitamento de códigos comuns
       //entre classes, evitando assim duplicações de códigos.
-      //Neste projeto, o Template Method foi usado para implementar na classe mãe
-      //algorítmos repetidos nas classes filhas
+      //Neste projeto, o Template Method foi usado para implementar na classe mãe de situações de orçamento
+      //algorítmos repetidos das classes filhas
 
       //Design Patterns State: se o resultado de uma chamada de método depende do estado,
       //podemos delegar esta ação para uma classe específica do estado atual.
@@ -129,6 +142,37 @@ begin
          end;
       finally
          aOrcamentoCalculadorDesconto.Destroy;
+      end;
+
+      //Design Patterns Command Handler.
+      //Neste projeto, o Command Handler foi usado para isolar a logica de
+      //geração de pedidos atraves de um manipulador (handler) da geração de Pedidos
+      Writeln;
+      Writeln('Pedidos');
+      Write('Nome do Cliente: ');
+      Readln(aCliente);
+      Write('Valor do Orçamento: ');
+      Readln(aValor);
+      Write('Quantidade de Itens do Orçamento: ');
+      Readln(aQtItem);
+      Writeln;
+      aManipuladorGeracaoPedido := TCasoUsoPedidoManipuladorGeracao.Create;
+      try
+         aRepositorioPedido := TRepositorioPedido.Create;
+         try
+            aManipuladorGeracaoPedido.AdicionarAcao(TCasoUsoPedidoExecutadorAcaoRepositorioSalvar.Create(aRepositorioPedido));
+            aManipuladorGeracaoPedido.AdicionarAcao(TCasoUsoPedidoExecutadorAcaoEmailEnviar.Create);
+            aGeradorPedido := TCasoUsoPedidoGerador.Create(aCliente, aValor, aQtItem);
+            try
+               aManipuladorGeracaoPedido.Gerar(aGeradorPedido);
+            finally
+               aGeradorPedido.Destroy;
+            end;
+         finally
+            aRepositorioPedido.Destroy;
+         end;
+      finally
+         aManipuladorGeracaoPedido.Destroy;
       end;
    except
       on E: Exception do
