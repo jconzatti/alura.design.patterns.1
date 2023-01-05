@@ -147,6 +147,10 @@ begin
       //Design Patterns Command Handler.
       //Neste projeto, o Command Handler foi usado para isolar a logica de
       //geração de pedidos atraves de um manipulador (handler) da geração de Pedidos
+
+      //Design Patterns Observer.
+      //Neste projeto, o Observer foi usado na geração de pedidos atraves do
+      //manipulador (handler) que executa uma lista de ações ao gerar o pedido
       Writeln;
       Writeln('Pedidos');
       Write('Nome do Cliente: ');
